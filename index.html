@@ -3,220 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TALHA BHAI | Secure Image Hosting</title>
+    <title>TALHA BHAI | Image Hosting</title>
     
+    <!-- PWA / Add to Home Screen Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="TALHA Host">
-    <link rel="apple-touch-icon" href="https://logo-png-sigma.vercel.app/TQK.png">
+    <meta name="apple-mobile-web-app-title" content="TALHA BHAI Host">
     <link rel="icon" type="image/png" href="https://logo-png-sigma.vercel.app/TQK.png">
+    <link rel="apple-touch-icon" href="https://logo-png-sigma.vercel.app/TQK.png">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: #070d08; background-image: radial-gradient(circle at 20% 30%, #0d2211 0%, #070d08 100%); height: 100vh; display: flex; justify-content: center; align-items: center; color: white; overflow: hidden; }
+        .dashboard { width: 90%; max-width: 450px; background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(0, 255, 127, 0.15); border-radius: 30px; padding: 40px 25px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.7), 0 0 30px rgba(0, 255, 127, 0.05); position: relative; }
         
-        /* Full Neon Green & Dark Cyberpunk Background Theme */
-        body { 
-            background: #05080c; 
-            background-image: radial-gradient(circle at 50% 30%, #0c1e12 0%, #05080c 100%); 
-            height: 100vh; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            color: white; 
-            overflow: hidden; 
-        }
+        .logo-area img { width: 80px; height: 80px; object-fit: contain; margin-bottom: 15px; filter: drop-shadow(0 0 15px rgba(0, 255, 127, 0.6)); border-radius: 50%; }
+        h1 { font-size: 24px; font-weight: 700; margin-bottom: 5px; color: #00ff7f; text-shadow: 0 0 10px rgba(0, 255, 127, 0.3); }
+        p.subtitle { font-size: 13px; color: #a0a0a0; margin-bottom: 25px; }
         
-        /* Glassmorphism Dashboard Container */
-        .dashboard { 
-            width: 90%; 
-            max-width: 450px; 
-            background: rgba(255, 255, 255, 0.02); 
-            backdrop-filter: blur(25px); 
-            border: 1px solid rgba(0, 255, 136, 0.15); 
-            border-radius: 30px; 
-            padding: 40px 25px; 
-            text-align: center; 
-            box-shadow: 0 25px 50px rgba(0,0,0,0.7), 0 0 30px rgba(0, 255, 136, 0.05); 
-            position: relative; 
-        }
+        .drop-zone { width: 100%; height: 180px; border: 2px dashed rgba(0, 255, 127, 0.3); border-radius: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden; background: rgba(0, 255, 127, 0.02); }
+        .drop-zone:hover { border-color: #00ff7f; background: rgba(0, 255, 127, 0.08); box-shadow: 0 0 15px rgba(0, 255, 127, 0.1); }
+        #preview-img { position: absolute; width: 100%; height: 100%; object-fit: cover; display: none; border-radius: 18px; }
         
-        /* Custom Logo Section */
-        .logo-area {
-            width: 90px;
-            height: 90px;
-            margin: 0 auto 15px auto;
-            border-radius: 50%;
-            border: 2px solid #00ff88;
-            padding: 5px;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
-            background: rgba(0, 0, 0, 0.4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .logo-area img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
+        .btn-upload { width: 100%; background: linear-gradient(90deg, #00cb62, #00ff7f); color: #000; border: none; padding: 15px; border-radius: 15px; font-weight: 700; margin-top: 20px; cursor: pointer; box-shadow: 0 10px 20px rgba(0, 255, 127, 0.2); transition: 0.3s; font-size: 15px; }
+        .btn-upload:hover { transform: translateY(-2px); box-shadow: 0 15px 25px rgba(0, 255, 127, 0.4); background: linear-gradient(90deg, #00ff7f, #00cb62); }
+        .btn-upload:disabled { opacity: 0.6; cursor: not-allowed; }
         
-        h1 { 
-            font-size: 24px; 
-            font-weight: 700; 
-            margin-bottom: 5px; 
-            color: #ffffff;
-            letter-spacing: 0.5px;
-        }
-        h1 span {
-            color: #00ff88;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-        }
+        .telegram-btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; background: #17212b; color: #2ea6de; border: 1px solid #2ea6de; padding: 12px; border-radius: 15px; font-weight: 600; margin-top: 12px; cursor: pointer; text-decoration: none; font-size: 14px; transition: 0.3s; }
+        .telegram-btn:hover { background: #2ea6de; color: white; box-shadow: 0 0 15px rgba(46, 166, 222, 0.4); }
         
-        p.subtitle { 
-            font-size: 13px; 
-            color: #a0aec0; 
-            margin-bottom: 30px; 
-        }
+        .result-area { margin-top: 25px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 15px; display: none; border: 1px solid rgba(0, 255, 127, 0.2); animation: slideIn 0.5s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .link-box { background: #0c1510; padding: 12px; border-radius: 10px; font-size: 13px; color: #00ff7f; word-break: break-all; margin-bottom: 12px; border: 1px solid #163523; text-align: left; }
+        .copy-btn { background: #00ff7f; color: #000; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: 0.2s; }
+        .copy-btn:hover { background: #00cb62; }
         
-        /* Drop Zone Area with Neon Accents */
-        .drop-zone { 
-            width: 100%; 
-            height: 180px; 
-            border: 2px dashed rgba(0, 255, 136, 0.25); 
-            border-radius: 20px; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            cursor: pointer; 
-            transition: 0.3s; 
-            position: relative; 
-            overflow: hidden; 
-            background: rgba(0, 0, 0, 0.2);
-        }
-        .drop-zone:hover { 
-            border-color: #00ff88; 
-            background: rgba(0, 255, 136, 0.05); 
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.1);
-        }
-        #preview-img { 
-            position: absolute; 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            display: none; 
-            border-radius: 18px; 
-            z-index: 5;
-        }
-        
-        /* Upload Button - Neon Green Gradient */
-        .btn-upload { 
-            width: 100%; 
-            background: linear-gradient(90deg, #00ff88, #00b362); 
-            color: #05080c; 
-            border: none; 
-            padding: 15px; 
-            border-radius: 15px; 
-            font-weight: 700; 
-            margin-top: 25px; 
-            cursor: pointer; 
-            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.2); 
-            transition: 0.3s; 
-            font-size: 15px;
-            letter-spacing: 0.5px;
-        }
-        .btn-upload:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 15px 25px rgba(0, 255, 136, 0.4); 
-        }
-        .btn-upload:disabled { 
-            opacity: 0.6; 
-            cursor: not-allowed; 
-            transform: none;
-        }
-        
-        /* Result Area Styling */
-        .result-area { 
-            margin-top: 25px; 
-            background: rgba(0, 0, 0, 0.4); 
-            padding: 15px; 
-            border-radius: 15px; 
-            display: none; 
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            animation: slideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
-        }
-        @keyframes slideIn { 
-            from { opacity: 0; transform: translateY(15px); } 
-            to { opacity: 1; transform: translateY(0); } 
-        }
-        .link-box { 
-            background: #0d131a; 
-            padding: 12px; 
-            border-radius: 10px; 
-            font-size: 12px; 
-            color: #00ff88; 
-            word-break: break-all; 
-            margin-bottom: 12px; 
-            border: 1px solid rgba(255,255,255,0.05); 
-        }
-        .copy-btn { 
-            background: #00ff88; 
-            color: #05080c; 
-            border: none; 
-            padding: 8px 18px; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            font-size: 13px; 
-            font-weight: 600;
-            transition: 0.2s;
-        }
-        .copy-btn:hover {
-            opacity: 0.9;
-        }
-        
-        /* Telegram Support Widget Button */
-        .telegram-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 25px;
-            color: #0088cc;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-            transition: 0.3s;
-            background: rgba(0, 136, 204, 0.07);
-            padding: 8px 16px;
-            border-radius: 50px;
-            border: 1px solid rgba(0, 136, 204, 0.2);
-        }
-        .telegram-btn i { font-size: 15px; margin-right: 6px; }
-        .telegram-btn:hover {
-            background: rgba(0, 136, 204, 0.15);
-            color: #33a1ff;
-            box-shadow: 0 0 10px rgba(0, 136, 204, 0.1);
-        }
-
-        /* Toast Notifications */
-        #toast { 
-            position: fixed; 
-            bottom: -100px; 
-            left: 50%; 
-            transform: translateX(-50%); 
-            background: #0d131a; 
-            color: white; 
-            padding: 12px 25px; 
-            border-radius: 50px; 
-            font-size: 14px; 
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            z-index: 1000; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5), 0 0 10px rgba(0, 255, 136, 0.2); 
-            border: 1px solid rgba(0, 255, 136, 0.3);
-        }
+        #toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: #163523; color: #00ff7f; border: 1px solid #00ff7f; padding: 12px 25px; border-radius: 50px; font-size: 14px; transition: 0.5s; z-index: 1000; box-shadow: 0 5px 15px rgba(0,255,127,0.2); }
         #toast.show { bottom: 30px; }
     </style>
 </head>
@@ -224,16 +47,15 @@
 
 <div class="dashboard">
     <div class="logo-area">
-        <img src="https://logo-png-sigma.vercel.app/TQK.png" alt="TALHA TRADER Logo">
+        <img src="https://logo-png-sigma.vercel.app/TQK.png" alt="TALHA BHAI Logo">
     </div>
-    
-    <h1>TALHA BHAI <span>Host</span></h1>
-    <p class="subtitle">Secure Cloud Storage Proxy</p>
+    <h1>TALHA BHAI Host</h1>
+    <p class="subtitle">Secure Green Cloud Storage Proxy</p>
     
     <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
         <img id="preview-img" src="">
-        <i class="fa-solid fa-cloud-arrow-up" style="font-size: 35px; color: #00ff88; opacity: 0.6; margin-bottom: 10px;"></i>
-        <span id="dropText" style="font-size: 13px; color: #a0aec0;">Tap to select image</span>
+        <i class="fa-solid fa-cloud-arrow-up" style="font-size: 35px; color: #00ff7f; margin-bottom: 10px; opacity: 0.7;"></i>
+        <span id="dropText" style="font-size: 13px; color: #aaa;">Tap to select image</span>
     </div>
 
     <input type="file" id="fileInput" accept="image/png, image/jpeg, image/gif, image/jpg" hidden>
@@ -241,16 +63,14 @@
     <button class="btn-upload" id="uploadBtn" onclick="startUpload()">
         <i class="fa-solid fa-shield-halved"></i> &nbsp; Secure Upload
     </button>
+
+    <a href="https://t.me/TALHAQOTEXKING" target="_blank" class="telegram-btn">
+        <i class="fa-brands fa-telegram"></i> &nbsp; Contact TALHA BHAI
+    </a>
     
     <div class="result-area" id="resultArea">
         <div class="link-box" id="finalLink"></div>
         <button class="copy-btn" onclick="copyToClipboard()"><i class="fa-solid fa-copy"></i> Copy Link</button>
-    </div>
-
-    <div>
-        <a href="https://t.me/TALHAQOTEXKING" target="_blank" class="telegram-btn">
-            <i class="fa-brands fa-telegram"></i> @TALHAQOTEXKING
-        </a>
     </div>
 </div>
 
@@ -265,28 +85,24 @@
     const finalLink = document.getElementById('finalLink');
     const toast = document.getElementById('toast');
 
-    // Display localized Image Preview setup when selected from device
     fileInput.onchange = () => {
         const file = fileInput.files[0];
         if (file) {
             previewImg.src = URL.createObjectURL(file);
             previewImg.style.display = 'block';
             dropText.style.display = 'none';
-            
-            // Full state clear for secondary execution iterations
             uploadBtn.disabled = false;
             uploadBtn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Secure Upload';
             resultArea.style.display = 'none';
         }
     }
 
-    // Modern Secure File Transfer Gateway Execution Engine
     async function startUpload() {
         const file = fileInput.files[0];
         if (!file) return showToast("⚠️ Select an image first!");
 
         uploadBtn.disabled = true;
-        uploadBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Securing...';
+        uploadBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Securing...';
 
         const formData = new FormData();
         formData.append('image', file);
@@ -314,7 +130,6 @@
         }
     }
 
-    // Dynamic UI Component Display Drivers
     function showToast(msg) { 
         toast.innerText = msg; 
         toast.classList.add('show'); 
